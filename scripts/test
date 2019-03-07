@@ -1,7 +1,7 @@
 #!/bin/bash -exu
 
 export CONSUL_RELEASE_VERSION="99999+dev.$(date +%s)"
-export LATEST_CONSUL_RELEASE_VERSION="$(curl http://bosh.io/api/v1/releases/github.com/cloudfoundry-incubator/consul-release | jq -r .[0].version)"
+# export LATEST_CONSUL_RELEASE_VERSION="$(curl http://bosh.io/api/v1/releases/github.com/cloudfoundry-incubator/consul-release | jq -r .[0].version)"
 
 turbulence_version="0.8"
 
@@ -36,11 +36,11 @@ function main() {
 
   upload_releases "${scripts_dir}"
   force_compilation "${scripts_dir}"
-  if [[ "${1}" = "turbulence" ]]; then
-    bash -c "${scripts_dir}/../src/acceptance-tests/scripts/test -nodes ${PARALLEL_NODES} $@"
-  else
-    bash -c "${scripts_dir}/../src/acceptance-tests/scripts/test -skipPackage turbulence -nodes ${PARALLEL_NODES} $@"
-  fi
+  # if [[ "${1}" = "turbulence" ]]; then "lol turbulence"
+  #   bash -c "${scripts_dir}/../src/acceptance-tests/scripts/test -nodes ${PARALLEL_NODES} $@"
+  # else
+  bash -c "${scripts_dir}/../src/acceptance-tests/scripts/test -skipPackage turbulence -nodes ${PARALLEL_NODES} $@"
+  # fi
 }
 
 function parse_config() {
@@ -68,8 +68,9 @@ function upload_releases() {
   wget -nc -O "${releases_dir}/turbulence-release-${turbulence_version}.tgz" "http://bosh.io/d/github.com/cppforlife/turbulence-release?v=${turbulence_version}" || echo "File Exists"
   bosh upload-release "${releases_dir}/turbulence-release-${turbulence_version}.tgz"
 
-  wget -nc -O "${releases_dir}/consul-release-${LATEST_CONSUL_RELEASE_VERSION}.tgz" "http://bosh.io/d/github.com/cloudfoundry-incubator/consul-release?v=${LATEST_CONSUL_RELEASE_VERSION}" || echo "File Exists"
-  bosh upload-release "${releases_dir}/consul-release-${LATEST_CONSUL_RELEASE_VERSION}.tgz"
+# this should not be necessary, we're testing the local release uploaded above, not the recent final release.
+  # wget -nc -O "${releases_dir}/consul-release-${LATEST_CONSUL_RELEASE_VERSION}.tgz" "http://bosh.io/d/github.com/cloudfoundry-incubator/consul-release?v=${LATEST_CONSUL_RELEASE_VERSION}" || echo "File Exists"
+  # bosh upload-release "${releases_dir}/consul-release-${LATEST_CONSUL_RELEASE_VERSION}.tgz"
 }
 
 function force_compilation() {
@@ -78,7 +79,7 @@ function force_compilation() {
 
   set +x
   local stemcell_version
-  stemcell_version=$(bosh stemcells | awk '$3 == "ubuntu-trusty" { print $2 }')
+  stemcell_version=$(bosh stemcells | awk '$3 == "ubuntu-xenial" { print $2 }' | sed s/*//)
   set -x
 
   pushd /tmp > /dev/null
@@ -87,12 +88,13 @@ function force_compilation() {
     if [[ -n $(bosh cloud-config) ]]; then
       echo "cloud config exists...skipping update cloud-config"
     else
-      bosh update-cloud-config "${scripts_dir}/../manifests/cloud_config.yml"
+      echo "this test requires a cloud-config uploaded"
+      exit 1
     fi
 
     bosh -d compilation -n deploy "consul_compilation.yml"
-    bosh -d compilation export-release "consul/${CONSUL_RELEASE_VERSION}" "ubuntu-trusty/${stemcell_version}"
-    bosh -d compilation export-release "turbulence/${turbulence_version}" "ubuntu-trusty/${stemcell_version}"
+    bosh -d compilation export-release "consul/${CONSUL_RELEASE_VERSION}" "ubuntu-xenial/${stemcell_version}"
+    bosh -d compilation export-release "turbulence/${turbulence_version}" "ubuntu-xenial/${stemcell_version}"
     bosh -d compilation -n delete-deployment
   popd > /dev/null
 }
@@ -100,7 +102,7 @@ function force_compilation() {
 function cleanup_releases() {
   set +e
   bosh -n delete-release turbulence/"${turbulence_version}"
-  bosh -n delete-release consul/"${LATEST_CONSUL_RELEASE_VERSION}"
+  # bosh -n delete-release consul/"${LATEST_CONSUL_RELEASE_VERSION}"
   bosh -n delete-release consul/"${CONSUL_RELEASE_VERSION}"
   set -e
 }

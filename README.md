@@ -444,17 +444,7 @@ This assumes you are using a private subnet within a VPC.
 
 ### Environment setup
 
-This repository assumes that it is the root of your `GOPATH`. You can set this up by doing the following:
-
-```shell
-source .envrc
-```
-
-Or if you have `direnv` installed:
-
-```shell
-direnv allow
-```
+This repository assumes that it is the root of your `GOPATH`. Move it to `~/go/src/github.com/cloudfoundry-incubator`.
 
 ### Running the CONSATS
 
@@ -488,7 +478,7 @@ config json will be generated from the values you specify in the `consats.yml` m
 cat > integration_config.json << EOF
 {
   "bosh":{
-    "target": "192.168.50.4",
+    "target": "https://192.168.50.6:25555",
     "username": "admin",
     "password": "admin",
 	"director_ca_cert": "some-cert"

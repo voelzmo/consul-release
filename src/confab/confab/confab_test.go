@@ -16,6 +16,7 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	. "github.com/Benjamintf1/unmarshalledmatchers"
 )
 
 const COMMAND_TIMEOUT = time.Second * 15
@@ -174,17 +175,18 @@ var _ = Describe("confab", func() {
 
 			serviceConfig, err := ioutil.ReadFile(filepath.Join(consulConfigDir, "service-cloud_controller.json"))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(string(serviceConfig)).To(MatchJSON(string(expectedCloudControllerServiceConfig)))
+			Expect(string(serviceConfig)).To(MatchUnorderedJSON(string(expectedCloudControllerServiceConfig)))
 
 			serviceConfig, err = ioutil.ReadFile(filepath.Join(consulConfigDir, "service-router.json"))
 			Expect(err).NotTo(HaveOccurred())
-			Expect(string(serviceConfig)).To(MatchJSON(string(expectedRouterServiceConfig)))
+			Expect(string(serviceConfig)).To(MatchUnorderedJSON(string(expectedRouterServiceConfig)))
 
 			consulConfig, err := ioutil.ReadFile(filepath.Join(consulConfigDir, "config.json"))
 			Expect(err).NotTo(HaveOccurred())
 
 			conf := map[string]interface{}{
 				"server":                 false,
+				"ui": true,
 				"domain":                 "some-domain",
 				"datacenter":             "dc1",
 				"data_dir":               dataDir,
@@ -220,7 +222,7 @@ var _ = Describe("confab", func() {
 			}
 			body, err := json.Marshal(conf)
 			Expect(err).To(BeNil())
-			Expect(string(consulConfig)).To(MatchJSON(body))
+			Expect(string(consulConfig)).To(MatchUnorderedJSON(body))
 		}
 
 		It("starts and stops the consul process as a daemon", func() {

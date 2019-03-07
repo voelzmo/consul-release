@@ -198,7 +198,7 @@ func main() {
 
 func printUsageAndExit(message string, flagSet *flag.FlagSet) {
 	stderr.Printf("%s\n\n", message)
-	stderr.Println("usage: confab COMMAND OPTIONS\n")
+	stderr.Println("usage: confab COMMAND OPTIONS")
 	stderr.Println("COMMAND: \"start\" or \"stop\"")
 	stderr.Println("\nOPTIONS:")
 	flagSet.PrintDefaults()

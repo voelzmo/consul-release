@@ -15,8 +15,8 @@ update:
   update_watch_time: 1000-60000
 
 stemcells:
-- alias: trusty
-  os: ubuntu-trusty
+- alias: xenial
+  os: ubuntu-xenial
   version: latest
 
 instance_groups: []

@@ -3,12 +3,13 @@ name: consul
 
 stemcells:
 - alias: linux
-  os: ubuntu-trusty
+  os: ubuntu-xenial
   version: latest
 
 releases:
 - name: consul
-  version: latest
+  version: create
+  url: file:///Users/d058546/go/src/github.com/cloudfoundry-incubator/consul-release
 
 update:
   canaries: 1
@@ -31,9 +32,9 @@ instance_groups:
       consul_server: { from: server_link }
       consul_client: { from: client_link }
     provides:
-      consul_common: { as: common_link }
-      consul_server: { as: server_link }
-      consul_client: { as: client_link }
+      consul_common: { as: common_link, shared: true }
+      consul_server: { as: server_link, shared: true }
+      consul_client: { as: client_link, shared: true }
     properties:
       consul:
         agent:

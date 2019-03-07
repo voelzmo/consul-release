@@ -17,6 +17,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	. "github.com/pivotal-cf-experimental/gomegamatchers"
+	. "github.com/Benjamintf1/unmarshalledmatchers"
 )
 
 var _ = Describe("ConfigWriter", func() {
@@ -59,6 +60,7 @@ var _ = Describe("ConfigWriter", func() {
 
 			conf := map[string]interface{}{
 				"server":                 false,
+				"ui": true,
 				"domain":                 "",
 				"datacenter":             "",
 				"data_dir":               dataDir,
@@ -93,7 +95,7 @@ var _ = Describe("ConfigWriter", func() {
 			}
 			body, err := json.Marshal(conf)
 			Expect(err).To(BeNil())
-			Expect(buf).To(MatchJSON(body))
+			Expect(buf).To(MatchUnorderedJSON(body))
 
 			Expect(logger.Messages()).To(ContainSequence([]fakes.LoggerMessage{
 				{

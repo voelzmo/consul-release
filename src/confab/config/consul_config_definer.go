@@ -10,6 +10,7 @@ import (
 
 type ConsulConfig struct {
 	Server               bool                    `json:"server"`
+	UI                   bool                    `json:"ui"`
 	Domain               string                  `json:"domain"`
 	Datacenter           string                  `json:"datacenter"`
 	DataDir              string                  `json:"data_dir"`
@@ -80,6 +81,7 @@ func GenerateConfiguration(config Config, configDir, nodeName string) ConsulConf
 
 	consulConfig := ConsulConfig{
 		Server:             isServer,
+		UI:                 true,
 		Domain:             config.Consul.Agent.Domain,
 		Datacenter:         config.Consul.Agent.Datacenter,
 		DataDir:            config.Path.DataDir,
