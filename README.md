@@ -453,17 +453,17 @@ This repository assumes that it is the root of your `GOPATH`. Move it to `~/go/s
 Run all the tests with:
 
 ```
-CONSATS_CONFIG=[config_file.json] ./scripts/test
+CONSATS_CONFIG=[/path/to/config_file.json] ./scripts/test
 ```
 
 Run a specific set of tests with:
 
 ```
-CONSATS_CONFIG=[config_file.json] ./scripts/test <some test packages>
+CONSATS_CONFIG=[/path/to/config_file.json] ./scripts/test <some test packages>
 ```
 
 The `CONSATS_CONFIG` environment variable points to a configuration file which specifies the endpoint of the BOSH director.
-When specifying location of the CONSATS_CONFIG, it must be an absolute path on the filesystem.
+When specifying location of the CONSATS_CONFIG, it must be an *absolute path on the filesystem*.
 
 See below for more information on the contents of this configuration file.
 

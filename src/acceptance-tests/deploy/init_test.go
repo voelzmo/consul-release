@@ -34,6 +34,7 @@ var _ = BeforeSuite(func() {
 		Username:         config.BOSH.Username,
 		Password:         config.BOSH.Password,
 		AllowInsecureSSL: true,
+		UAA: true,
 	})
 })
 

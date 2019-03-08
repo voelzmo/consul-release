@@ -42,7 +42,7 @@ type ServiceDefinition struct {
 type ServiceDefinitionCheck struct {
 	Name              string `json:"name"`
 	ID                string `json:"id,omitempty"`
-	Script            string `json:"script,omitempty"`
+	Args            []string `json:"args,omitempty"`
 	HTTP              string `json:"http,omitempty"`
 	TCP               string `json:"tcp,omitempty"`
 	TTL               string `json:"ttl,omitempty"`
@@ -93,7 +93,7 @@ func (s ServiceDefiner) GenerateDefinitions(config Config) ([]ServiceDefinition,
 			Name:        strings.Replace(name, "_", "-", -1),
 			Check: &ServiceDefinitionCheck{
 				Name:     "dns_health_check",
-				Script:   fmt.Sprintf(command, name),
+				Args:   strings.Split(fmt.Sprintf(command, name), " "),
 				Interval: "3s",
 			},
 			Checks:            service.Checks,

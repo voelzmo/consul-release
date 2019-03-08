@@ -21,7 +21,7 @@
 	url = https://go.googlesource.com/crypto
 [submodule "src/acceptance-tests/vendor/github.com/pivotal-cf-experimental/bosh-test"]
 	path = src/acceptance-tests/vendor/github.com/pivotal-cf-experimental/bosh-test
-	url = https://github.com/pivotal-cf-experimental/bosh-test
+	url = git@github.com:voelzmo/bosh-test.git
 [submodule "src/acceptance-tests/vendor/github.com/pivotal-cf-experimental/gomegamatchers"]
 	path = src/acceptance-tests/vendor/github.com/pivotal-cf-experimental/gomegamatchers
 	url = https://github.com/pivotal-cf-experimental/gomegamatchers
