@@ -61,7 +61,7 @@ var _ = Describe("Single host multiple services", func() {
 						Name: "some-service-name",
 						Check: serviceCheck{
 							Name:     "some-service-check",
-							Script:   healthCheck,
+							Args:   []string{healthCheck},
 							Interval: "1m",
 						},
 					},

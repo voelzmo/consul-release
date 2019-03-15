@@ -58,7 +58,7 @@ type Spammer struct {
 
 func NewSpammer(kv kv, spamInterval time.Duration, prefix string) *Spammer {
 	address := strings.TrimPrefix(strings.TrimSuffix(kv.Address(), "/consul"), "http://")
-	linuxMessage := fmt.Sprintf("dial tcp %s: getsockopt: connection refused", address)
+	linuxMessage := fmt.Sprintf("dial tcp %s: connect: connection refused", address)
 	windowsMessage := fmt.Sprintf("dial tcp %s: i/o timeout", address)
 	windowsContextDeadlineMessage := fmt.Sprintf("dial tcp %s: context deadline exceeded", address)
 	return &Spammer{
@@ -77,7 +77,7 @@ func NewSpammer(kv kv, spamInterval time.Duration, prefix string) *Spammer {
 func (s *Spammer) Spam() {
 	s.wg.Add(1)
 
-	go func() {
+	 go func() {
 		var counts struct {
 			attempts              int
 			rpcErrors             int

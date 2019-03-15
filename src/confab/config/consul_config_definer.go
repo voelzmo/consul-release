@@ -34,6 +34,7 @@ type ConsulConfig struct {
 	Performance          ConsulConfigPerformance `json:"performance"`
 	Telemetry            *ConsulConfigTelemetry  `json:"telemetry,omitempty"`
 	TLSMinVersion        string                  `json:"tls_min_version"`
+	EnableLocalScriptChecks bool `json:"enable_local_script_checks"`
 }
 
 type ConsulConfigPorts struct {
@@ -107,6 +108,7 @@ func GenerateConfiguration(config Config, configDir, nodeName string) ConsulConf
 			RaftMultiplier: 1,
 		},
 		TLSMinVersion: "tls12",
+		EnableLocalScriptChecks: true,
 	}
 
 	if config.Consul.Agent.Telemetry.StatsdAddress != "" {

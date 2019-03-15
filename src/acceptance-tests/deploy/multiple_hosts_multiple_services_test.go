@@ -61,7 +61,7 @@ var _ = Describe("Multiple hosts multiple services", func() {
 						Name: "some-service-name",
 						Check: serviceCheck{
 							Name:     "some-service-check",
-							Script:   healthCheck,
+							Args:   []string{healthCheck},
 							Interval: "10s",
 						},
 					},
@@ -69,7 +69,7 @@ var _ = Describe("Multiple hosts multiple services", func() {
 						Name: "some-other-service-name",
 						Check: serviceCheck{
 							Name:     "some-other-service-check",
-							Script:   healthCheck,
+							Args:   []string{healthCheck},
 							Interval: "10s",
 						},
 					},
