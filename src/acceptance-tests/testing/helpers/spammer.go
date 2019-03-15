@@ -46,6 +46,7 @@ type Spammer struct {
 	kv                                         kv
 	store                                      map[string]string
 	testConsumerConnectionRefusedErrorMessage  string
+	testConsumerConnectionRefusedErrorMessage2  string
 	testConsumerConnectionDroppedErrorMessage  string
 	testConsumerContextDeadlineExceededMessage string
 	done                                       chan struct{}
@@ -58,11 +59,13 @@ type Spammer struct {
 
 func NewSpammer(kv kv, spamInterval time.Duration, prefix string) *Spammer {
 	address := strings.TrimPrefix(strings.TrimSuffix(kv.Address(), "/consul"), "http://")
-	linuxMessage := fmt.Sprintf("dial tcp %s: connect: connection refused", address)
+	linuxMessage := fmt.Sprintf("dial tcp %s: getsockopt: connection refused", address)
+	linuxMessage2 := fmt.Sprintf("dial tcp %s: connect: connection refused", address)
 	windowsMessage := fmt.Sprintf("dial tcp %s: i/o timeout", address)
 	windowsContextDeadlineMessage := fmt.Sprintf("dial tcp %s: context deadline exceeded", address)
 	return &Spammer{
 		testConsumerConnectionRefusedErrorMessage:  linuxMessage,
+		testConsumerConnectionRefusedErrorMessage2:  linuxMessage2,
 		testConsumerConnectionDroppedErrorMessage:  windowsMessage,
 		testConsumerContextDeadlineExceededMessage: windowsContextDeadlineMessage,
 		kv:               kv,
@@ -103,6 +106,10 @@ func (s *Spammer) Spam() {
 							s.errors.Add(fmt.Errorf("rpc error: error writing key %q: %s", key, err.Error()))
 						}
 					case strings.Contains(err.Error(), s.testConsumerConnectionDroppedErrorMessage):
+						// failures to connect to the test consumer should not count as failed key writes
+						// this typically happens when the test-consumer vm is rolled
+						counts.attempts--
+					case strings.Contains(err.Error(), s.testConsumerConnectionRefusedErrorMessage2):
 						// failures to connect to the test consumer should not count as failed key writes
 						// this typically happens when the test-consumer vm is rolled
 						counts.attempts--
