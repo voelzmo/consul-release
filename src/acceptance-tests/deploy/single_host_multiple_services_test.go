@@ -50,7 +50,7 @@ var _ = Describe("Single host multiple services", func() {
 
 	It("discovers multiples services on a single host", func() {
 		By("registering services", func() {
-			healthCheck := fmt.Sprintf("curl -f http://%s:6769/health_check", testConsumerIP)
+			healthCheck := fmt.Sprintf("http://%s:6769/health_check", testConsumerIP)
 
 			var err error
 			manifest, err = ops.ApplyOp(manifest, ops.Op{
@@ -61,7 +61,7 @@ var _ = Describe("Single host multiple services", func() {
 						Name: "some-service-name",
 						Check: serviceCheck{
 							Name:     "some-service-check",
-							Args:   []string{healthCheck},
+							Http:   healthCheck,
 							Interval: "1m",
 						},
 					},

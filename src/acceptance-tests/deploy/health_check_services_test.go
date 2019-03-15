@@ -20,7 +20,7 @@ type service struct {
 
 type serviceCheck struct {
 	Name     string
-	Args   []string
+	Http   string
 	Interval string
 }
 
@@ -72,7 +72,7 @@ var _ = Describe("Health Check", func() {
 							Name: "some-service-name",
 							Check: serviceCheck{
 								Name:     "some-service-check",
-								Args:   []string{fmt.Sprintf("curl -f %s", fmt.Sprintf("http://%s:6769/health_check", testConsumerIP))},
+								Http:   fmt.Sprintf("http://%s:6769/health_check", testConsumerIP),
 								Interval: "10s",
 							},
 							Tags: []string{"some-service-tag"},
