@@ -46,14 +46,14 @@ func (kv HTTPKV) Set(key, value string) error {
 		return fmt.Errorf("do request: %s", err)
 	}
 
+	if response.StatusCode != http.StatusOK {
+		return fmt.Errorf("unexpected status: %d %s", response.StatusCode, http.StatusText(response.StatusCode))
+	}
+
 	defer response.Body.Close()
 	body, err := bodyReader(response.Body)
 	if err != nil {
 		return fmt.Errorf("read body: %s", err)
-	}
-
-	if response.StatusCode != http.StatusOK {
-		return fmt.Errorf("unexpected status: %d %s %s", response.StatusCode, http.StatusText(response.StatusCode), string(body))
 	}
 
 	if string(body) != "true" {
