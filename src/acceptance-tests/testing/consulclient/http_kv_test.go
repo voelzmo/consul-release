@@ -162,13 +162,12 @@ var _ = Describe("HTTPKV", func() {
 				It("returns an error", func() {
 					server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 						w.WriteHeader(http.StatusTeapot)
-						w.Write([]byte("something bad happened"))
 					}))
 
 					kv := consulclient.NewHTTPKV(server.URL)
 
 					err := kv.Set("some-key", "some-value")
-					Expect(err).To(MatchError(errors.New("unexpected status: 418 I'm a teapot something bad happened")))
+					Expect(err).To(MatchError(errors.New("unexpected status: 418 I'm a teapot")))
 				})
 			})
 
