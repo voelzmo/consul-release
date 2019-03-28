@@ -29,25 +29,19 @@ instance_groups:
     release: consul
     consumes:
       consul_common: { from: common_link }
-      consul_server: { from: server_link }
-      consul_client: { from: client_link }
     provides:
       consul_common: { as: common_link, shared: true }
-      consul_server: { as: server_link, shared: true }
-      consul_client: { as: client_link, shared: true }
     properties:
       consul:
+        server:
+          tls: ((/consul_server_tls))
         agent:
+          tls: ((/consul_agent_tls))
           mode: server
           log_level: info
           domain: cf.internal
         encrypt_keys:
-        - ((consul_encrypt_key))
-        agent_cert: ((consul_agent.certificate))
-        agent_key: ((consul_agent.private_key))
-        ca_cert: ((consul_agent.ca))
-        server_cert: ((consul_server.certificate))
-        server_key: ((consul_server.private_key))
+        - ((/consul_encrypt_key))
   stemcell: linux
   vm_type: default
   persistent_disk_type: 1GB
@@ -55,27 +49,27 @@ instance_groups:
   - name: private
 
 variables:
-- name: consul_encrypt_key
+- name: /consul_encrypt_key
   type: password
-- name: consul_agent_ca
+- name: /consul_agent_ca
   type: certificate
   options:
     is_ca: true
     common_name: consulCA
-- name: consul_agent
+- name: /consul_agent_tls
   type: certificate
   options:
-    ca: consul_agent_ca
+    ca: /consul_agent_ca
     common_name: consul_agent
     extended_key_usage:
     - client_auth
     - server_auth
     alternative_names:
     - 127.0.0.1
-- name: consul_server
+- name: /consul_server_tls
   type: certificate
   options:
-    ca: consul_agent_ca
+    ca: /consul_agent_ca
     common_name: server.dc1.cf.internal
     extended_key_usage:
     - client_auth

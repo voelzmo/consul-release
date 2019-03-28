@@ -79,7 +79,7 @@ function force_compilation() {
 
   set +x
   local stemcell_version
-  stemcell_version=$(bosh stemcells | awk '$3 == "ubuntu-xenial" { print $2 }' | sed s/*//)
+  stemcell_version=$(bosh stemcells --json | jq -r .Tables[0].Rows[0].version | sed s/*//)
   set -x
 
   pushd /tmp > /dev/null

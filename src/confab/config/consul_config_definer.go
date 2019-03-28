@@ -102,7 +102,6 @@ func GenerateConfiguration(config Config, configDir, nodeName string) ConsulConf
 		BindAddr:           config.Node.ExternalIP,
 		DisableRemoteExec:  true,
 		DisableUpdateCheck: true,
-		Protocol:           config.Consul.Agent.ProtocolVersion,
 		Ports: ConsulConfigPorts{
 			DNS: dns,
 		},

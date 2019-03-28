@@ -294,25 +294,6 @@ var _ = Describe("ConsulConfigDefiner", func() {
 			})
 		})
 
-		Describe("protocol", func() {
-			It("defaults to 0", func() {
-				Expect(consulConfig.Protocol).To(Equal(0))
-			})
-
-			Context("when `consul.agent.protocol_version` is specified", func() {
-				It("uses that value", func() {
-					consulConfig = config.GenerateConfiguration(config.Config{
-						Consul: config.ConfigConsul{
-							Agent: config.ConfigConsulAgent{
-								ProtocolVersion: 21,
-							},
-						},
-					}, configDir, "")
-					Expect(consulConfig.Protocol).To(Equal(21))
-				})
-			})
-		})
-
 		Describe("verify_outgoing", func() {
 			It("is true", func() {
 				consulConfig = config.GenerateConfiguration(config.Config{}, configDir, "")

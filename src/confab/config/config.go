@@ -43,7 +43,6 @@ type ConfigConsulAgent struct {
 	Domain          string                       `json:"domain"`
 	Datacenter      string                       `json:"datacenter"`
 	LogLevel        string                       `json:"log_level"`
-	ProtocolVersion int                          `json:"protocol_version"`
 	DnsConfig       ConfigConsulAgentDnsConfig   `json:"dns_config"`
 	Telemetry       ConfigConsulTelemetry        `json:"telemetry"`
 	Bootstrap       bool                         `json:"bootstrap"`

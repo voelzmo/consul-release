@@ -9,11 +9,11 @@ templates:
   drain: bin/drain
   confab.json.erb: confab.json
   consul_link.json.erb: consul_link.json
-  ca.crt.erb: config/certs/ca.crt
-  server.crt.erb: config/certs/server.crt
-  server.key.erb: config/certs/server.key
-  agent.crt.erb: config/certs/agent.crt
-  agent.key.erb: config/certs/agent.key
+  certs/ca.crt.erb: config/certs/ca.crt
+  certs/server.crt.erb: config/certs/server.crt
+  certs/server.key.erb: config/certs/server.key
+  certs/agent.crt.erb: config/certs/agent.crt
+  certs/agent.key.erb: config/certs/agent.key
 
 packages:
   - consul
@@ -26,37 +26,14 @@ provides:
   - consul.agent.servers.lan
   - consul.agent.log_level
   - consul.agent.datacenter
-  - consul.agent.protocol_version
   - consul.agent.dns_config.allow_stale
   - consul.agent.dns_config.max_stale
   - consul.agent.dns_config.recursor_timeout
   - consul.agent.domain
-  - consul.ca_cert
-  - consul.encrypt_keys
-
-- name: consul_server
-  type: consul_server
-  properties:
-  - consul.server_cert
-  - consul.server_key
-
-- name: consul_client
-  type: consul_client
-  properties:
-  - consul.agent_cert
-  - consul.agent_key
 
 consumes:
 - name: consul_common
   type: consul_common
-  optional: true
-
-- name: consul_server
-  type: consul_server
-  optional: true
-
-- name: consul_client
-  type: consul_client
   optional: true
 
 properties:
@@ -98,10 +75,6 @@ properties:
   consul.agent.telemetry.statsd_address:
     description: "Telemetry Statsd address"
 
-  consul.agent.protocol_version:
-    description: "The Consul protocol to use."
-    default: 2
-
   consul.agent.dns_config.allow_stale:
     description: "Enables a stale query for DNS information. This allows any Consul server, rather than only the leader, to service the request."
     default: true
@@ -125,20 +98,11 @@ properties:
     description: "When set to true this property will rewrite the resolv.conf file and add 127.0.0.1 as the first entry"
     default: true
 
-  consul.ca_cert:
-    description: "PEM-encoded CA certificate"
+  consul.agent.tls:
+    description: "Agent cert, key, and CA for mTLS"
 
-  consul.server_cert:
-    description: "PEM-encoded server certificate"
-
-  consul.server_key:
-    description: "PEM-encoded server key"
-
-  consul.agent_cert:
-    description: "PEM-encoded agent certificate"
-
-  consul.agent_key:
-    description: "PEM-encoded client key"
+  consul.server.tls:
+    description: "Server cert, key, and CA for mTLS"
 
   consul.encrypt_keys:
     description: "A list of passphrases that will be converted into encryption keys, the first key in the list is the active one"

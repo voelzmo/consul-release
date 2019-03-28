@@ -37,7 +37,6 @@ var _ = Describe("Config", func() {
 							"mode": "server",
 							"datacenter": "dc1",
 							"log_level": "debug",
-							"protocol_version": 1,
 							"servers": {
 								"lan": ["server1", "server2", "server3"],
 								"wan": ["wan-server1", "wan-server2", "wan-server3"]
@@ -86,7 +85,6 @@ var _ = Describe("Config", func() {
 							Mode:            "server",
 							Datacenter:      "dc1",
 							LogLevel:        "debug",
-							ProtocolVersion: 1,
 							Servers: config.ConfigConsulAgentServers{
 								LAN: []string{"server1", "server2", "server3"},
 								WAN: []string{"wan-server1", "wan-server2", "wan-server3"},
