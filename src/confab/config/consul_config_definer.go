@@ -9,39 +9,32 @@ import (
 )
 
 type ConsulConfig struct {
-	Server               bool                    `json:"server"`
-	UI                   bool                    `json:"ui"`
-	// AutoPilot		 AutoPilotConfig		 `json:"autopilot"`
-	Domain               string                  `json:"domain"`
-	Datacenter           string                  `json:"datacenter"`
-	DataDir              string                  `json:"data_dir"`
-	LogLevel             string                  `json:"log_level"`
-	NodeName             string                  `json:"node_name"`
-	Ports                ConsulConfigPorts       `json:"ports"`
-	RejoinAfterLeave     bool                    `json:"rejoin_after_leave"`
-	BindAddr             string                  `json:"bind_addr"`
-	DisableRemoteExec    bool                    `json:"disable_remote_exec"`
-	DisableUpdateCheck   bool                    `json:"disable_update_check"`
-	Protocol             int                     `json:"protocol"`
-	VerifyOutgoing       *bool                   `json:"verify_outgoing,omitempty"`
-	VerifyIncoming       *bool                   `json:"verify_incoming,omitempty"`
-	VerifyServerHostname *bool                   `json:"verify_server_hostname,omitempty"`
-	CAFile               *string                 `json:"ca_file,omitempty"`
-	KeyFile              *string                 `json:"key_file,omitempty"`
-	CertFile             *string                 `json:"cert_file,omitempty"`
-	Encrypt              *string                 `json:"encrypt,omitempty"`
-	DnsConfig            ConsulConfigDnsConfig   `json:"dns_config"`
-	Bootstrap            *bool                   `json:"bootstrap,omitempty"`
-	Performance          ConsulConfigPerformance `json:"performance"`
-	Telemetry            *ConsulConfigTelemetry  `json:"telemetry,omitempty"`
-	TLSMinVersion        string                  `json:"tls_min_version"`
-	EnableLocalScriptChecks bool `json:"enable_local_script_checks"`
+	Server                  bool                    `json:"server"`
+	UI                      bool                    `json:"ui"`
+	Domain                  string                  `json:"domain"`
+	Datacenter              string                  `json:"datacenter"`
+	DataDir                 string                  `json:"data_dir"`
+	LogLevel                string                  `json:"log_level"`
+	NodeName                string                  `json:"node_name"`
+	Ports                   ConsulConfigPorts       `json:"ports"`
+	RejoinAfterLeave        bool                    `json:"rejoin_after_leave"`
+	BindAddr                string                  `json:"bind_addr"`
+	DisableRemoteExec       bool                    `json:"disable_remote_exec"`
+	DisableUpdateCheck      bool                    `json:"disable_update_check"`
+	VerifyOutgoing          *bool                   `json:"verify_outgoing,omitempty"`
+	VerifyIncoming          *bool                   `json:"verify_incoming,omitempty"`
+	VerifyServerHostname    *bool                   `json:"verify_server_hostname,omitempty"`
+	CAFile                  *string                 `json:"ca_file,omitempty"`
+	KeyFile                 *string                 `json:"key_file,omitempty"`
+	CertFile                *string                 `json:"cert_file,omitempty"`
+	Encrypt                 *string                 `json:"encrypt,omitempty"`
+	DnsConfig               ConsulConfigDnsConfig   `json:"dns_config"`
+	Bootstrap               *bool                   `json:"bootstrap,omitempty"`
+	Performance             ConsulConfigPerformance `json:"performance"`
+	Telemetry               *ConsulConfigTelemetry  `json:"telemetry,omitempty"`
+	TLSMinVersion           string                  `json:"tls_min_version"`
+	EnableLocalScriptChecks bool                    `json:"enable_local_script_checks"`
 }
-
-// type AutoPilotConfig struct {
-// 	LastContactThreshold string `json:"last_contact_threshold"`
-// 	ServerStabilizationTime string `json:"server_stabilization_time"`
-// }
 
 type ConsulConfigPorts struct {
 	DNS   int `json:"dns,omitempty"`
@@ -89,10 +82,6 @@ func GenerateConfiguration(config Config, configDir, nodeName string) ConsulConf
 	consulConfig := ConsulConfig{
 		Server:             isServer,
 		UI:                 true,
-		// AutoPilot:          AutoPilotConfig{
-		// 	LastContactThreshold: "1s",
-		// 	ServerStabilizationTime: "1s",
-		// },
 		Domain:             config.Consul.Agent.Domain,
 		Datacenter:         config.Consul.Agent.Datacenter,
 		DataDir:            config.Path.DataDir,
@@ -116,7 +105,7 @@ func GenerateConfiguration(config Config, configDir, nodeName string) ConsulConf
 		Performance: ConsulConfigPerformance{
 			RaftMultiplier: 1,
 		},
-		TLSMinVersion: "tls12",
+		TLSMinVersion:           "tls12",
 		EnableLocalScriptChecks: true,
 	}
 
