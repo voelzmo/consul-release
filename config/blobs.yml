@@ -1,18 +1,12 @@
 consul-windows/consul_0.7.4_windows_amd64.zip:
   size: 8797270
   sha: 2832858f6edc1d346f2473411ff1de7c6c2988be
-consul/consul-template_0.19.5_linux_amd64.zip:
-  size: 2832422
-  sha: e1b044b2b5a952f6fc108dfc027f5c2536f277c7
 consul/consul-template_0.20.0_linux_amd64.zip:
   size: 3550269
   sha: fe55b8a2e1fe28bfb6224265e6c2a1466895a3c4
 consul/consul_0.7.4_linux_amd64.zip:
   size: 8764647
   sha: 5d2ccf2bfe7ec35263fbb582701f01283bf66648
-consul/consul_1.4.3_linux_amd64.zip:
-  size: 34777003
-  sha: c4695f12eab32360c9916a2be1fd8f06d1e5b6cb
 consul/consul_1.5.0_linux_amd64.zip:
   size: 38622579
   sha: sha256:1399064050019db05d3378f757e058ec4426a917dd2d240336b51532065880b6
