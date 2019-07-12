@@ -34,21 +34,22 @@ type ConfigNode struct {
 	Index      int    `json:"index"`
 	ExternalIP string `json:"external_ip"`
 	Zone       string `json:"zone"`
+	ID         string `json:"id"`
 }
 
 type ConfigConsulAgent struct {
-	Servers         ConfigConsulAgentServers     `json:"servers"`
-	Services        map[string]ServiceDefinition `json:"services"`
-	Mode            string                       `json:"mode"`
-	Domain          string                       `json:"domain"`
-	Datacenter      string                       `json:"datacenter"`
-	LogLevel        string                       `json:"log_level"`
-	DnsConfig       ConfigConsulAgentDnsConfig   `json:"dns_config"`
-	Telemetry       ConfigConsulTelemetry        `json:"telemetry"`
-	Bootstrap       bool                         `json:"bootstrap"`
-	NodeName        string                       `json:"node_name"`
-	RequireSSL      bool                         `json:"require_ssl"`
-	Ports           ConfigConsulAgentPorts       `json:"ports"`
+	Servers    ConfigConsulAgentServers     `json:"servers"`
+	Services   map[string]ServiceDefinition `json:"services"`
+	Mode       string                       `json:"mode"`
+	Domain     string                       `json:"domain"`
+	Datacenter string                       `json:"datacenter"`
+	LogLevel   string                       `json:"log_level"`
+	DnsConfig  ConfigConsulAgentDnsConfig   `json:"dns_config"`
+	Telemetry  ConfigConsulTelemetry        `json:"telemetry"`
+	Bootstrap  bool                         `json:"bootstrap"`
+	NodeName   string                       `json:"node_name"`
+	RequireSSL bool                         `json:"require_ssl"`
+	Ports      ConfigConsulAgentPorts       `json:"ports"`
 }
 
 type ConfigConsulAgentPorts struct {

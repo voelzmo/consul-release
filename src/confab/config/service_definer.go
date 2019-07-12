@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -40,19 +41,20 @@ type ServiceDefinition struct {
 }
 
 type ServiceDefinitionCheck struct {
-	Name              string `json:"name"`
-	ID                string `json:"id,omitempty"`
-	Args            []string `json:"args,omitempty"`
-	HTTP              string `json:"http,omitempty"`
-	TCP               string `json:"tcp,omitempty"`
-	TTL               string `json:"ttl,omitempty"`
-	Interval          string `json:"interval,omitempty"`
-	Timeout           string `json:"timeout,omitempty"`
-	Notes             string `json:"notes,omitempty"`
-	DockerContainerID string `json:"docker_container_id,omitempty"`
-	Shell             string `json:"shell,omitempty"`
-	Status            string `json:"status,omitempty"`
-	ServiceID         string `json:"service_id,omitempty"`
+	Name              string   `json:"name"`
+	ID                string   `json:"id,omitempty"`
+	Args              []string `json:"args,omitempty"`
+	HTTP              string   `json:"http,omitempty"`
+	Method            string   `json:"method,omitempty"`
+	TCP               string   `json:"tcp,omitempty"`
+	TTL               string   `json:"ttl,omitempty"`
+	Interval          string   `json:"interval,omitempty"`
+	Timeout           string   `json:"timeout,omitempty"`
+	Notes             string   `json:"notes,omitempty"`
+	DockerContainerID string   `json:"docker_container_id,omitempty"`
+	Shell             string   `json:"shell,omitempty"`
+	Status            string   `json:"status,omitempty"`
+	ServiceID         string   `json:"service_id,omitempty"`
 }
 
 type ServiceDefiner struct {
@@ -74,6 +76,7 @@ func (s ServiceDefiner) GenerateDefinitions(config Config) ([]ServiceDefinition,
 		}
 		tags := []string{
 			fmt.Sprintf("%s-%d", strings.Replace(config.Node.Name, "_", "-", -1), config.Node.Index),
+			config.Node.ID,
 		}
 		if config.Node.Zone != "" {
 			encodedZone, err := idna.ToASCII(config.Node.Zone)
@@ -88,14 +91,27 @@ func (s ServiceDefiner) GenerateDefinitions(config Config) ([]ServiceDefinition,
 
 			tags = append(tags, encodedZone)
 		}
-		definition := ServiceDefinition{
-			ServiceName: name,
-			Name:        strings.Replace(name, "_", "-", -1),
-			Check: &ServiceDefinitionCheck{
+
+		var check ServiceDefinitionCheck
+		checkConfigPath := filepath.Join(fmt.Sprintf("/var/vcap/jobs/%s/config/health-check.json", name))
+
+		checkConfig, err := os.Open(checkConfigPath)
+		if err == nil {
+			defer checkConfig.Close()
+			byteValue, _ := ioutil.ReadAll(checkConfig)
+			json.Unmarshal(byteValue, &check)
+		} else {
+			check = ServiceDefinitionCheck{
 				Name:     "dns_health_check",
-				Args:   strings.Split(fmt.Sprintf(command, name), " "),
+				Args:     strings.Split(fmt.Sprintf(command, name), " "),
 				Interval: "3s",
-			},
+			}
+		}
+
+		definition := ServiceDefinition{
+			ServiceName:       name,
+			Name:              strings.Replace(name, "_", "-", -1),
+			Check:             &check,
 			Checks:            service.Checks,
 			Tags:              tags,
 			Address:           service.Address,
