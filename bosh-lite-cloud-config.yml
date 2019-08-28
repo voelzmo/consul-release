@@ -14,7 +14,7 @@ disk_types:
 - disk_size: 1024
   name: default
 networks:
-- name: private
+- name: default
   subnets:
   - azs:
     - z1

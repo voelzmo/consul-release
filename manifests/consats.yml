@@ -19,7 +19,7 @@ instance_groups:
   vm_extensions: [10GB_ephemeral_disk]
   stemcell: default
   networks:
-  - name: private
+  - name: default
   jobs:
   - name: acceptance-tests
     release: consul

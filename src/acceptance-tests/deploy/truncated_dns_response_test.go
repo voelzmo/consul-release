@@ -73,7 +73,7 @@ var _ = Describe("given large DNS response", func() {
 					PersistentDiskType: "1GB",
 					Networks: []instanceGroupNetwork{
 						{
-							Name: "private",
+							Name: "default",
 						},
 					},
 					Jobs: []instanceGroupJob{

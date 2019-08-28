@@ -144,7 +144,7 @@ var _ = Describe("recursor timeout", func() {
 						PersistentDiskType: "1GB",
 						Networks: []instanceGroupNetwork{
 							{
-								Name: "private",
+								Name: "default",
 							},
 						},
 						Jobs: []instanceGroupJob{

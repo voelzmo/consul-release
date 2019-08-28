@@ -26,7 +26,7 @@ disk_types:
 - disk_size: 1048576	
   name: 1TB
 networks:
-- name: private	
+- name: default	
   type: manual	
   subnets:	
   - az: z1	
