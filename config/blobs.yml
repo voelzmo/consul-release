@@ -6,3 +6,6 @@ consul/consul_1.6.0_linux_amd64.zip:
   size: 39966552
   object_id: c1509ac5-b4a9-4dbd-73d3-6a18edb20444
   sha: sha256:06b9993384e5fad901e0a70185b198dc74f3f34e1660a40f194cd6095b5d59d4
+envoy:
+  size: 18362488
+  sha: sha256:7f59b18b16c61a3557a95633a860430541ff765e95b5772b1c7cea50e1b3081b

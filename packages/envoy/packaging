@@ -1,0 +1,6 @@
+set -e
+ENVOY_VERSION=1.11.1
+
+mkdir -p ${BOSH_INSTALL_TARGET}/bin
+cp envoy-${ENVOY_VERSION} ${BOSH_INSTALL_TARGET}/bin/envoy
+chmod +x ${BOSH_INSTALL_TARGET}/bin/envoy
