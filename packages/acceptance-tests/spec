@@ -2,7 +2,7 @@
 name: acceptance-tests
 
 dependencies:
-  - golang-1-linux
+  - golang-1.12-linux
 
 files:
  - acceptance-tests/**/*

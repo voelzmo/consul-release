@@ -6,7 +6,7 @@ templates:
 packages:
  - acceptance-tests
  - consul
- - golang-1-linux
+ - golang-1.12-linux
 
 properties:
   consul.acceptance_tests.bosh.target:
