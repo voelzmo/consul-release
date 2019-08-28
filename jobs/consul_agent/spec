@@ -30,6 +30,7 @@ provides:
   - consul.agent.dns_config.max_stale
   - consul.agent.dns_config.recursor_timeout
   - consul.agent.domain
+  - consul.agent.enable_connect
 
 consumes:
 - name: consul_common
@@ -100,6 +101,10 @@ properties:
 
   consul.agent.tls:
     description: "Agent cert, key, and CA for mTLS"
+
+  consul.agent.enable_connect:
+    description: "Enable consul connect to automatically provision envoy sidecars"
+    default: false
 
   consul.server.tls:
     description: "Server cert, key, and CA for mTLS"

@@ -34,12 +34,18 @@ type ConsulConfig struct {
 	Telemetry               *ConsulConfigTelemetry  `json:"telemetry,omitempty"`
 	TLSMinVersion           string                  `json:"tls_min_version"`
 	EnableLocalScriptChecks bool                    `json:"enable_local_script_checks"`
+	Connect                 ConsulConnectConfig     `json:"connect"`
+}
+
+type ConsulConnectConfig struct {
+	Enabled bool `json:"enabled"`
 }
 
 type ConsulConfigPorts struct {
 	DNS   int `json:"dns,omitempty"`
 	HTTP  int `json:"http,omitempty"`
 	HTTPS int `json:"https,omitempty"`
+	GRPC  int `json:"grpc",omitempty`
 }
 
 type ConsulConfigDnsConfig struct {
@@ -120,6 +126,10 @@ func GenerateConfiguration(config Config, configDir, nodeName string) ConsulConf
 		consulConfig.Ports.HTTPS = 8500
 	}
 
+	if config.Consul.Agent.EnableConnect {
+		consulConfig.Ports.GRPC = 8502
+	}
+
 	consulConfig.VerifyOutgoing = boolPtr(true)
 	consulConfig.VerifyIncoming = boolPtr(true)
 	consulConfig.VerifyServerHostname = boolPtr(true)
@@ -141,6 +151,8 @@ func GenerateConfiguration(config Config, configDir, nodeName string) ConsulConf
 	if isServer {
 		consulConfig.Bootstrap = boolPtr(config.Consul.Agent.Bootstrap)
 	}
+
+	consulConfig.Connect = ConsulConnectConfig{Enabled: config.Consul.Agent.EnableConnect}
 
 	return consulConfig
 }

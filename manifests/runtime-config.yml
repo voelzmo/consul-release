@@ -1,53 +1,28 @@
 ---
-name: consul
-
-stemcells:
-- alias: linux
-  os: ubuntu-xenial
-  version: latest
-
 releases:
 - name: consul
   version: create
   url: file:///Users/d058546/go/src/github.com/cloudfoundry-incubator/consul-release
 
-update:
-  canaries: 1
-  canary_watch_time: 1000-180000
-  max_in_flight: 1
-  serial: true
-  update_watch_time: 1000-180000
-
-instance_groups:
-- name: consul
-  instances: 3
-  azs:
-  - z1
-  - z2
+addons:
+- name: consul_agent
   jobs:
   - name: consul_agent
     release: consul
     consumes:
-      consul_common: { from: common_link }
-    provides:
-      consul_common: { as: common_link, shared: true }
+      consul_common: { from: common_link, deployment: consul }
     properties:
       consul:
         server:
           tls: ((/consul_server_tls))
         agent:
           tls: ((/consul_agent_tls))
-          enable_connect: true
-          mode: server
           log_level: info
           domain: cf.internal
         encrypt_keys:
         - ((/consul_encrypt_key))
-  stemcell: linux
-  vm_type: default
-  persistent_disk_type: 1GB
-  networks:
-  - name: default
+
+
 
 variables:
 - name: /consul_encrypt_key

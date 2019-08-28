@@ -38,6 +38,14 @@ type ServiceDefinition struct {
 	EnableTagOverride bool                     `json:"enableTagOverride,omitempty"`
 	ID                string                   `json:"id,omitempty"`
 	Token             string                   `json:"token,omitempty"`
+	Connect           ServiceConnectDefinition `json:"connect"`
+}
+
+type ServiceConnectDefinition struct {
+	SidecarService SidecarServiceDefintion `json:"sidecar_service"`
+}
+
+type SidecarServiceDefintion struct {
 }
 
 type ServiceDefinitionCheck struct {
@@ -119,6 +127,10 @@ func (s ServiceDefiner) GenerateDefinitions(config Config) ([]ServiceDefinition,
 			EnableTagOverride: service.EnableTagOverride,
 			ID:                service.ID,
 			Token:             service.Token,
+		}
+
+		if config.Consul.Agent.EnableConnect {
+			service.Connect = ServiceConnectDefinition{SidecarService: SidecarServiceDefintion{}}
 		}
 
 		if service.Name != "" {
