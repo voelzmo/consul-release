@@ -18,6 +18,7 @@ templates:
 packages:
   - consul
   - confab
+  - envoy
 
 provides:
 - name: consul_common
