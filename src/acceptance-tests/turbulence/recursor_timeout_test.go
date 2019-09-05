@@ -141,7 +141,7 @@ var _ = Describe("recursor timeout", func() {
 						AZs:                []string{"z1"},
 						VMType:             "default",
 						Stemcell:           "default",
-						PersistentDiskType: "1GB",
+						PersistentDiskType: "default",
 						Networks: []instanceGroupNetwork{
 							{
 								Name: "default",

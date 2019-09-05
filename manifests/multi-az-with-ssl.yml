@@ -45,7 +45,7 @@ instance_groups:
         - ((/consul_encrypt_key))
   stemcell: linux
   vm_type: default
-  persistent_disk_type: 1GB
+  persistent_disk_type: default
   networks:
   - name: default
 

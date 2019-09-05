@@ -191,12 +191,12 @@ var _ = Describe("TLS key rotation", func() {
 		})
 
 		By("adding a new ca cert", func() {
-			oldCACert, err := ops.FindOp(manifest, "/instance_groups/name=consul/properties/consul/ca_cert")
+			oldCACert, err := ops.FindOp(manifest, "/instance_groups/name=consul/properties/consul/server/tls/ca")
 			Expect(err).NotTo(HaveOccurred())
 
 			manifest, err = ops.ApplyOp(manifest, ops.Op{
 				Type:  "replace",
-				Path:  "/instance_groups/name=consul/properties/consul/ca_cert",
+				Path:  "/instance_groups/name=consul/properties/consul/server/tls/ca",
 				Value: fmt.Sprintf("%s\n%s", oldCACert.(string), newCACert),
 			})
 			Expect(err).NotTo(HaveOccurred())
@@ -216,22 +216,22 @@ var _ = Describe("TLS key rotation", func() {
 			manifest, err = ops.ApplyOps(manifest, []ops.Op{
 				{
 					Type:  "replace",
-					Path:  "/instance_groups/name=consul/properties/consul/agent_cert",
+					Path:  "/instance_groups/name=consul/properties/consul/agent/tls/certificate",
 					Value: newAgentCert,
 				},
 				{
 					Type:  "replace",
-					Path:  "/instance_groups/name=consul/properties/consul/server_cert",
+					Path:  "/instance_groups/name=consul/properties/consul/server/tls/certificate",
 					Value: newServerCert,
 				},
 				{
 					Type:  "replace",
-					Path:  "/instance_groups/name=consul/properties/consul/agent_key",
+					Path:  "/instance_groups/name=consul/properties/consul/agent/tls/private_key",
 					Value: newAgentKey,
 				},
 				{
 					Type:  "replace",
-					Path:  "/instance_groups/name=consul/properties/consul/server_key",
+					Path:  "/instance_groups/name=consul/properties/consul/server/private_key",
 					Value: newServerKey,
 				},
 			})
@@ -251,7 +251,7 @@ var _ = Describe("TLS key rotation", func() {
 			var err error
 			manifest, err = ops.ApplyOp(manifest, ops.Op{
 				Type:  "replace",
-				Path:  "/instance_groups/name=consul/properties/consul/ca_cert",
+				Path:  "/instance_groups/name=consul/properties/consul/server/tls/ca",
 				Value: newCACert,
 			})
 			Expect(err).NotTo(HaveOccurred())
